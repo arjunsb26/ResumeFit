@@ -1,0 +1,19 @@
+analyze_job_posting:
+  description: Read the job posting and summarize the key responsibilities, required qualifications, preferred skills, and overall tone.
+  expected_output: A clear breakdown of the job's must-haves, nice-to-haves, and suggested keywords to include in the resume and cover letter.
+
+evaluate_resume:
+  description: Analyze the current resume and compare it to the job description. Identify missing keywords, weak alignment, and skill gaps.
+  expected_output: A markdown feedback report summarizing mismatches and suggestions for tailoring the resume.
+
+rewrite_resume:
+  description: Rewrite or revise the original resume to align with the job posting, addressing feedback and incorporating key qualifications.
+  expected_output: A clean, updated version of the resume in markdown format that better matches the job requirements.
+
+prepare_interview:
+  description: Offer tailored preparation advice for each stage of the interview process, based on the role and industry.
+  expected_output: A preparation guide outlining expected interview formats and tips for behavioral, technical, or OA rounds.
+
+draft_cover_letter:
+  description: Write a personalized cover letter or introductory email that reflects the job description, user’s resume, and tone of the company.
+  expected_output: A well-formatted, persuasive cover letter (or email) that emphasizes the user's fit and interest in the role.
