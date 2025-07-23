@@ -1,0 +1,22 @@
+grade_resume_task:
+  description: >
+    You will be given a PDF-formatted resume. For that resume:
+    Score it out of 100, based on 7 categories (listed below).
+    
+    Categories:
+    - Skills Relevance (25 points)
+    - Experience Quality & Quantification (20 points)
+    - Projects & Practical Work (15 points)
+    - Education Background (10 points)
+    - Formatting & ATS-Friendliness (10 points)
+    - Technical Depth & Progression (10 points)
+    - Soft Skills / Communication (5 points)
+
+  expected_output: >
+    For each category, provide:
+      - A numeric score
+      - A clear paragraph explaining the reasoning for the score (not just a list); end each sentence with a new line
+      - Use specific examples as evidence for what the resume did right, and what it did wrong
+    At the end, write a final summary of the resume's strengths, weaknesses, and 2-3 improvement suggestions.
+
+    **Output should be structured like a human-written evaluation. Use newlines to make the paragraphs easier to read.
