@@ -1,19 +1,93 @@
 analyze_job_posting:
   description: Read the job posting and summarize the key responsibilities, required qualifications, preferred skills, and overall tone.
-  expected_output: A clear breakdown of the job's must-haves, nice-to-haves, and suggested keywords to include in the resume and cover letter.
+  expected_output: >
+    A clear breakdown of the job's must-haves, nice-to-haves, and suggested keywords to include in the resume and cover letter.
+    Additionally, output a summary file that highlights
+      - The primary skills and experiences the employer is looking for
+      - The tone of the job posting (e.g. technical, corporate, startup)
+      - Any clues about culture fit or values
+      - Keywords and technologies repeatedly mentioned
 
 evaluate_resume:
-  description: Analyze the current resume and compare it to the job description. Identify missing keywords, weak alignment, and skill gaps.
-  expected_output: A markdown feedback report summarizing mismatches and suggestions for tailoring the resume.
+  description: >
+    You will be given a resume in Markdown format. Your goal is twofold:
 
-rewrite_resume:
-  description: Rewrite or revise the original resume to align with the job posting, addressing feedback and incorporating key qualifications.
-  expected_output: A clean, updated version of the resume in markdown format that better matches the job requirements.
+    1. Score the resume generically (not considering any specific job) using the 7 categories below:
+       - Skills Relevance (25 points)
+       - Experience Quality & Quantification (20 points)
+       - Projects & Practical Work (15 points)
+       - Education Background (10 points)
+       - Formatting & ATS-Friendliness (10 points)
+       - Technical Depth & Progression (10 points)
+       - Soft Skills / Communication (5 points)
+
+    2. Compare the resume to the job description and identify alignment, mismatches, missing keywords, and opportunities for improvement.
+    
+    Here is the resume you are assigned to evaluate:
+    {resume}
+    
+  expected_output: >
+    Part 1: Generic Resume Evaluation
+      - Provide a score and explanation for each of the 7 categories
+      - Each explanation should be a paragraph with specific examples
+      - End each sentence with a newline for readability
+
+    Part 2: Job-Specific Evaluation
+      - Discuss how well the resume matches the job description
+      - Highlight missing or underemphasized areas based on the job post summary
+      - Suggest 2-3 targeted improvements for better alignment
+
+    Final Output:
+      - Write a concluding summary that brings together both evaluations
+      - Use clear, human-readable formatting and paragraph structure
+
+    Save output to: outputs/feedback_report.md
+
+    **Output should be structured like a human-written evaluation. Use newlines to make the paragraphs easier to read.
+
+# hallucination prevention: specify that each section can have multiple entries, clarify that crew should look out for that
+# provide resume skeleton as input example in description
 
 prepare_interview:
   description: Offer tailored preparation advice for each stage of the interview process, based on the role and industry.
   expected_output: A preparation guide outlining expected interview formats and tips for behavioral, technical, or OA rounds.
 
 draft_cover_letter:
-  description: Write a personalized cover letter or introductory email that reflects the job description, user’s resume, and tone of the company.
+  description: Write a personalized cover letter or introductory email that reflects the job description, user's resume, and tone of the company.
   expected_output: A well-formatted, persuasive cover letter (or email) that emphasizes the user's fit and interest in the role.
+
+
+rewrite_resume:
+  description: >
+    Your goal is to revise the given resume so that it is better aligned with the job posting,
+    using only the exact information already present in the resume.
+
+    **DO NOT FABRICATE, GUESS, OR MODIFY ANY FACTUAL INFORMATION.**
+    You are strictly forbidden from changing:
+      - Names
+      - Dates
+      - Schools
+      - Locations
+      - Company names
+      - Technologies or tools
+
+    You may only rephrase or reorder bullet points to highlight relevance, improve clarity, or include exact keywords
+    from the job post, *if they already match the candidate's experience*.
+
+    If you have suggestions that would improve alignment but cannot be supported by the original resume, you must:
+      - Clearly label them as suggestions
+      - Place them in a commented section (e.g. `<!-- Suggested addition: ... -->`)
+
+    You are rewriting the resume in Markdown format.
+
+  expected_output: >
+    A resume in markdown format that improves alignment with the job description,
+    using strictly the information already in the input resume.
+
+    The structure should include:
+      - Education
+      - Experience
+      - Projects (if present)
+      - Skills
+
+    Suggestions for additional content should be clearly separated and labeled as such in comments.

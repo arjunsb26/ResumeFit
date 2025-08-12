@@ -1,9 +1,11 @@
-from crewai import Agent, Crew, Process, Task
+from crewai import Agent, Crew, Process, Task, LLM
 from crewai.project import CrewBase, agent, crew, task
 
-from crewai_tools import FileReadTool, SerperDevTool
+from crewai_tools import FileReadTool, SerperDevTool, ScrapeWebsiteTool
 
 # from hypermindz.tools import MyCustomTool  # Example custom tool import
+
+llm = LLM(model="gpt-4.1-mini", temperature=0.4)
 
 @CrewBase
 class ResumeFitCrew():
@@ -16,7 +18,8 @@ class ResumeFitCrew():
     def job_analyst(self) -> Agent:
         return Agent(
             config=self.agents_config["job_analyst"],
-            tools=[SerperDevTool()],
+            tools=[ScrapeWebsiteTool("https://job-boards.greenhouse.io/ctccampusboard/jobs/4545359005")],
+            llm=llm,
             verbose=True
         )
 
@@ -24,15 +27,8 @@ class ResumeFitCrew():
     def resume_evaluator(self) -> Agent:
         return Agent(
             config=self.agents_config["resume_evaluator"],
-            tools=[FileReadTool("inputs/resume.md")],
-            verbose=True
-        )
-
-    @agent
-    def resume_rewriter(self) -> Agent:
-        return Agent(
-            config=self.agents_config["resume_rewriter"],
-            tools=[FileReadTool("inputs/resume.md")],
+            # tools=[FileReadTool("inputs/jakes-resume.md")],
+            llm=llm,
             verbose=True
         )
 
@@ -40,6 +36,7 @@ class ResumeFitCrew():
     def interview_coach(self) -> Agent:
         return Agent(
             config=self.agents_config["interview_coach"],
+            llm=llm,
             verbose=True
         )
 
@@ -47,6 +44,16 @@ class ResumeFitCrew():
     def cover_letter_writer(self) -> Agent:
         return Agent(
             config=self.agents_config["cover_letter_writer"],
+            llm=llm,
+            verbose=True
+        )
+    
+    @agent
+    def resume_rewriter(self) -> Agent:
+        return Agent(
+            config=self.agents_config["resume_rewriter"],
+            # tools=[FileReadTool("inputs/jakes-resume.md")],
+            llm=llm,
             verbose=True
         )
 
@@ -54,7 +61,8 @@ class ResumeFitCrew():
     def analyze_job_posting(self) -> Task:
         return Task(
             config=self.tasks_config["analyze_job_posting"],
-            agent=self.job_analyst()
+            agent=self.job_analyst(),
+            output_file="outputs/analyze_job_posting.md"
         )
 
     @task
@@ -62,15 +70,7 @@ class ResumeFitCrew():
         return Task(
             config=self.tasks_config["evaluate_resume"],
             agent=self.resume_evaluator(),
-            output_file="outputs/feedback_report.md"
-        )
-
-    @task
-    def rewrite_resume(self) -> Task:
-        return Task(
-            config=self.tasks_config["rewrite_resume"],
-            agent=self.resume_rewriter(),
-            output_file="outputs/updated_resume.md"
+            output_file="outputs/evaluate_resume.md"
         )
 
     @task
@@ -78,7 +78,7 @@ class ResumeFitCrew():
         return Task(
             config=self.tasks_config["prepare_interview"],
             agent=self.interview_coach(),
-            output_file="outputs/interview_prep.md"
+            output_file="outputs/prepare_interview.md"
         )
 
     @task
@@ -86,7 +86,15 @@ class ResumeFitCrew():
         return Task(
             config=self.tasks_config["draft_cover_letter"],
             agent=self.cover_letter_writer(),
-            output_file="outputs/cover_letter.md"
+            output_file="outputs/draft_cover_letter.md"
+        )
+    
+    @task
+    def rewrite_resume(self) -> Task:
+        return Task(
+            config=self.tasks_config["rewrite_resume"],
+            agent=self.resume_rewriter(),
+            output_file="outputs/rewrite_resume.md"
         )
 
     @crew
