@@ -3317,12 +3317,15 @@ source = { editable = "." }
 dependencies = [
     { name = "crewai", extra = ["tools"] },
     { name = "crewai-tools" },
+    { name = "langchain" },
 ]
 
 [package.metadata]
 requires-dist = [
+    { name = "crewai", specifier = "==0.76.2" },
     { name = "crewai", extras = ["tools"], specifier = ">=0.76.2,<1.0.0" },
     { name = "crewai-tools", specifier = "==0.13.2" },
+    { name = "langchain", specifier = "==0.3.24" },
 ]
 
 [[package]]

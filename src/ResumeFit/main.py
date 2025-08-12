@@ -30,7 +30,7 @@ def run():
     resume_content = resume_document.page_content
 
 
-    job_url = "https://job-boards.greenhouse.io/ctccampusboard/jobs/4545359005"
+    job_url = "https://www.hudsonrivertrading.com/hrt-job/software-engineering-internship-summer-2026-2/?gh_src="
 
     # Ensure resume is placed where the FileReadTool expects it
     # shutil.copy(resume_src_path, resume_dest_path)

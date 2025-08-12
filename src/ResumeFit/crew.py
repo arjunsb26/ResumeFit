@@ -18,7 +18,7 @@ class ResumeFitCrew():
     def job_analyst(self) -> Agent:
         return Agent(
             config=self.agents_config["job_analyst"],
-            tools=[ScrapeWebsiteTool("https://job-boards.greenhouse.io/ctccampusboard/jobs/4545359005")],
+            tools=[ScrapeWebsiteTool("")],
             llm=llm,
             verbose=True
         )
